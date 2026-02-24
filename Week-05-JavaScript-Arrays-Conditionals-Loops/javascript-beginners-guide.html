@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript for Beginners - Arrays, Conditions & Loops</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0f0f1a;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            text-align: center;
+            padding: 60px 20px 40px;
+            border-bottom: 3px solid #e94560;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            background: linear-gradient(90deg, #e94560, #f5a623, #50e3c2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: #a0a0c0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        nav {
+            background: #1a1a2e;
+            padding: 16px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #2a2a4a;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav a {
+            color: #a0a0c0;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        nav a:hover, nav a:focus {
+            color: #fff;
+            background: #2a2a4a;
+            border-color: #e94560;
+        }
+
+        nav a.arr { border-color: #f5a623; color: #f5a623; }
+        nav a.cond { border-color: #50e3c2; color: #50e3c2; }
+        nav a.loop { border-color: #e94560; color: #e94560; }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .topic-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #1a1a2e;
+            border-radius: 16px;
+            border-left: 5px solid #e94560;
+        }
+
+        .topic-section.arrays-section { border-left-color: #f5a623; }
+        .topic-section.cond-section { border-left-color: #50e3c2; }
+        .topic-section.loop-section { border-left-color: #e94560; }
+
+        .topic-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+
+        .topic-section h2.arr-title { color: #f5a623; }
+        .topic-section h2.cond-title { color: #50e3c2; }
+        .topic-section h2.loop-title { color: #e94560; }
+
+        .topic-section h3 {
+            font-size: 1.2rem;
+            color: #c0c0e0;
+            margin: 24px 0 10px;
+        }
+
+        .analogy {
+            background: #222244;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 14px 0;
+            font-size: 1.05rem;
+            border: 1px solid #333366;
+        }
+
+        .analogy::before {
+            content: "Think of it like this: ";
+            font-weight: 700;
+            color: #f5a623;
+        }
+
+        .example-box {
+            background: #12121e;
+            border-radius: 12px;
+            margin: 16px 0;
+            overflow: hidden;
+            border: 1px solid #2a2a4a;
+        }
+
+        .example-box .label {
+            padding: 10px 16px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .label-arr { background: #3a2a00; color: #f5a623; }
+        .label-cond { background: #0a2a2a; color: #50e3c2; }
+        .label-loop { background: #2a0a1a; color: #e94560; }
+
+        pre {
+            padding: 16px 20px;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            color: #d4d4d4;
+        }
+
+        .kw { color: #c586c0; }
+        .str { color: #ce9178; }
+        .num { color: #b5cea8; }
+        .fn { color: #dcdcaa; }
+        .cm { color: #6a9955; }
+        .var { color: #9cdcfe; }
+        .op { color: #d4d4d4; }
+        .bracket { color: #ffd700; }
+
+        .output-area {
+            background: #0a0a14;
+            border-top: 1px solid #2a2a4a;
+            padding: 12px 20px;
+            min-height: 40px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #50e3c2;
+            white-space: pre-wrap;
+        }
+
+        .run-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 8px 4px 8px 16px;
+        }
+
+        .run-btn:hover { transform: translateY(-1px); filter: brightness(1.15); }
+
+        .run-btn.arr-btn { background: #f5a623; color: #1a1a2e; }
+        .run-btn.cond-btn { background: #50e3c2; color: #1a1a2e; }
+        .run-btn.loop-btn { background: #e94560; color: #fff; }
+
+        .step-list {
+            padding-left: 0;
+            list-style: none;
+            counter-reset: steps;
+        }
+
+        .step-list li {
+            counter-increment: steps;
+            padding: 10px 16px 10px 50px;
+            margin: 8px 0;
+            background: #222244;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .step-list li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 28px;
+            height: 28px;
+            background: #e94560;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #333366, transparent);
+            margin: 40px 0;
+        }
+
+        .big-heading {
+            text-align: center;
+            font-size: 2rem;
+            margin: 50px 0 10px;
+            letter-spacing: 1px;
+        }
+
+        .big-heading.arr-color { color: #f5a623; }
+        .big-heading.cond-color { color: #50e3c2; }
+        .big-heading.loop-color { color: #e94560; }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .summary-card {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .summary-card .card {
+            background: #222244;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #333366;
+            transition: border-color 0.3s;
+        }
+
+        .summary-card .card:hover { border-color: #e94560; }
+
+        .summary-card .card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 6px;
+            color: #f5a623;
+        }
+
+        .summary-card .card p { font-size: 0.92rem; color: #a0a0c0; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .topic-section { padding: 20px 14px; }
+            pre { font-size: 0.8rem; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>JavaScript for Beginners</h1>
+    <p>Learn Arrays, Conditions, and Loops with fun examples you can try yourself!</p>
+</div>
+
+<nav>
+    <a href="#arrays" class="arr">Arrays</a>
+    <a href="#array-methods" class="arr">Array Methods</a>
+    <a href="#conditionals" class="cond">If / Else</a>
+    <a href="#switch" class="cond">Switch</a>
+    <a href="#while-loop" class="loop">While Loop</a>
+    <a href="#dowhile-loop" class="loop">Do-While</a>
+    <a href="#for-loop" class="loop">For Loop</a>
+    <a href="#break-continue" class="loop">Break &amp; Continue</a>
+</nav>
+
+<div class="container">
+
+<!-- ============================================================ -->
+<!-- PART 1: ARRAYS                                                -->
+<!-- ============================================================ -->
+
+<h2 class="big-heading arr-color" id="arrays">Part 1: Arrays</h2>
+<p class="subtitle">Storing lists of things in JavaScript</p>
+
+<div class="topic-section arrays-section">
+    <h2 class="arr-title">What is an Array?</h2>
+    <p>An <strong>array</strong> is a special variable that can hold <em>more than one value</em> at a time.</p>
+
+    <div class="analogy">Imagine you have a backpack. Instead of carrying one pencil, you can carry a whole pencil case with 10 pencils inside. An array is like that pencil case &mdash; one container, many items inside!</div>
+
+    <h3>Creating an Array</h3>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; Making an array of fruits</div>
+<pre>
+<span class="cm">// Two ways to create an array:</span>
+
+<span class="cm">// Way 1: Use square brackets (most common!)</span>
+<span class="kw">let</span> <span class="var">fruits</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Apple"</span>, <span class="str">"Banana"</span>, <span class="str">"Cherry"</span><span class="bracket">]</span>;
+
+<span class="cm">// Way 2: Use the Array constructor</span>
+<span class="kw">let</span> <span class="var">colors</span> <span class="op">=</span> <span class="kw">new</span> <span class="fn">Array</span>(<span class="str">"Red"</span>, <span class="str">"Blue"</span>, <span class="str">"Green"</span>);
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('arr1')">Run it!</button>
+        <div class="output-area" id="arr1"></div>
+    </div>
+
+    <h3>Accessing Array Elements</h3>
+    <p>Each item in an array has a <strong>position number</strong> called an <strong>index</strong>. The first item is at index <strong>0</strong> (not 1!).</p>
+
+    <div class="analogy">Think of a row of lockers numbered starting from 0. Locker 0 has the first item, Locker 1 has the second, and so on.</div>
+
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; Getting items by their index</div>
+<pre>
+<span class="kw">let</span> <span class="var">animals</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Cat"</span>, <span class="str">"Dog"</span>, <span class="str">"Fish"</span>, <span class="str">"Bird"</span><span class="bracket">]</span>;
+
+<span class="cm">// Index:    0       1       2       3</span>
+
+<span class="var">animals</span>[<span class="num">0</span>]   <span class="cm">// "Cat"   (first item)</span>
+<span class="var">animals</span>[<span class="num">1</span>]   <span class="cm">// "Dog"   (second item)</span>
+<span class="var">animals</span>[<span class="num">2</span>]   <span class="cm">// "Fish"  (third item)</span>
+<span class="var">animals</span>[<span class="num">3</span>]   <span class="cm">// "Bird"  (fourth item)</span>
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('arr2')">Run it!</button>
+        <div class="output-area" id="arr2"></div>
+    </div>
+
+    <h3>Changing &amp; Adding Items</h3>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; Changing and adding</div>
+<pre>
+<span class="kw">let</span> <span class="var">toys</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Lego"</span>, <span class="str">"Puzzle"</span>, <span class="str">"Ball"</span><span class="bracket">]</span>;
+
+<span class="cm">// Change the second item (index 1)</span>
+<span class="var">toys</span>[<span class="num">1</span>] <span class="op">=</span> <span class="str">"Robot"</span>;
+
+<span class="cm">// Add a new item at the end (index 3)</span>
+<span class="var">toys</span>[<span class="num">3</span>] <span class="op">=</span> <span class="str">"Doll"</span>;
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('arr3')">Run it!</button>
+        <div class="output-area" id="arr3"></div>
+    </div>
+
+    <h3>Array Length</h3>
+    <p>Use <code>.length</code> to find out how many items are in your array.</p>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; Counting items</div>
+<pre>
+<span class="kw">let</span> <span class="var">snacks</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Chips"</span>, <span class="str">"Cookies"</span>, <span class="str">"Candy"</span>, <span class="str">"Popcorn"</span><span class="bracket">]</span>;
+
+<span class="var">snacks</span>.<span class="var">length</span>   <span class="cm">// 4 items in the array!</span>
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('arr4')">Run it!</button>
+        <div class="output-area" id="arr4"></div>
+    </div>
+</div>
+
+<!-- ARRAY METHODS -->
+
+<div class="topic-section arrays-section" id="array-methods">
+    <h2 class="arr-title">Array Methods: Push, Pop, Shift, Unshift</h2>
+    <p>These are special commands that let you add or remove items from an array.</p>
+
+    <div class="analogy">Imagine a line of people waiting for ice cream. <strong>Push</strong> = someone joins at the back. <strong>Pop</strong> = the last person leaves. <strong>Unshift</strong> = someone cuts to the front. <strong>Shift</strong> = the first person leaves.</div>
+
+    <h3>push() &mdash; Add to the END</h3>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; push</div>
+<pre>
+<span class="kw">let</span> <span class="var">queue</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Alice"</span>, <span class="str">"Bob"</span><span class="bracket">]</span>;
+<span class="var">queue</span>.<span class="fn">push</span>(<span class="str">"Charlie"</span>);
+<span class="cm">// queue is now: ["Alice", "Bob", "Charlie"]</span>
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('push1')">Run it!</button>
+        <div class="output-area" id="push1"></div>
+    </div>
+
+    <h3>pop() &mdash; Remove from the END</h3>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; pop</div>
+<pre>
+<span class="kw">let</span> <span class="var">stack</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Plate 1"</span>, <span class="str">"Plate 2"</span>, <span class="str">"Plate 3"</span><span class="bracket">]</span>;
+<span class="kw">let</span> <span class="var">removed</span> <span class="op">=</span> <span class="var">stack</span>.<span class="fn">pop</span>();
+<span class="cm">// removed = "Plate 3"</span>
+<span class="cm">// stack is now: ["Plate 1", "Plate 2"]</span>
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('pop1')">Run it!</button>
+        <div class="output-area" id="pop1"></div>
+    </div>
+
+    <h3>unshift() &mdash; Add to the BEGINNING</h3>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; unshift</div>
+<pre>
+<span class="kw">let</span> <span class="var">line</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Bob"</span>, <span class="str">"Charlie"</span><span class="bracket">]</span>;
+<span class="var">line</span>.<span class="fn">unshift</span>(<span class="str">"Alice"</span>);
+<span class="cm">// line is now: ["Alice", "Bob", "Charlie"]</span>
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('unshift1')">Run it!</button>
+        <div class="output-area" id="unshift1"></div>
+    </div>
+
+    <h3>shift() &mdash; Remove from the BEGINNING</h3>
+    <div class="example-box">
+        <div class="label label-arr">Example &mdash; shift</div>
+<pre>
+<span class="kw">let</span> <span class="var">racers</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Flash"</span>, <span class="str">"Speedy"</span>, <span class="str">"Turbo"</span><span class="bracket">]</span>;
+<span class="kw">let</span> <span class="var">first</span> <span class="op">=</span> <span class="var">racers</span>.<span class="fn">shift</span>();
+<span class="cm">// first = "Flash"</span>
+<span class="cm">// racers is now: ["Speedy", "Turbo"]</span>
+</pre>
+        <button class="run-btn arr-btn" onclick="runExample('shift1')">Run it!</button>
+        <div class="output-area" id="shift1"></div>
+    </div>
+
+    <div class="summary-card">
+        <div class="card">
+            <h4>push &amp; pop (Fast!)</h4>
+            <p>Work at the <strong>end</strong> of the array. No need to move other items around, so they're super quick.</p>
+        </div>
+        <div class="card">
+            <h4>unshift &amp; shift (Slower)</h4>
+            <p>Work at the <strong>beginning</strong> of the array. All other items need to shuffle over, so they take more time.</p>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- PART 2: CONDITIONAL STATEMENTS                                -->
+<!-- ============================================================ -->
+
+<h2 class="big-heading cond-color" id="conditionals">Part 2: Conditional Statements</h2>
+<p class="subtitle">Making decisions in your code</p>
+
+<div class="topic-section cond-section">
+    <h2 class="cond-title">The if Statement</h2>
+    <p>An <code>if</code> statement lets your code <strong>make a decision</strong>. "If something is true, do this."</p>
+
+    <div class="analogy">It's like asking: "Is it raining?" If YES, grab an umbrella. If NO, wear sunglasses. Your code can make the same kind of choices!</div>
+
+    <h3>Simple if</h3>
+    <div class="example-box">
+        <div class="label label-cond">Example &mdash; Simple if</div>
+<pre>
+<span class="kw">let</span> <span class="var">temperature</span> <span class="op">=</span> <span class="num">35</span>;
+
+<span class="kw">if</span> (<span class="var">temperature</span> <span class="op">></span> <span class="num">30</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"It's a hot day! Stay cool!"</span>);
+}
+</pre>
+        <button class="run-btn cond-btn" onclick="runExample('if1')">Run it!</button>
+        <div class="output-area" id="if1"></div>
+    </div>
+
+    <h3>if ... else</h3>
+    <p>What if the condition is <strong>false</strong>? Use <code>else</code> to handle that!</p>
+    <div class="example-box">
+        <div class="label label-cond">Example &mdash; if / else</div>
+<pre>
+<span class="kw">let</span> <span class="var">age</span> <span class="op">=</span> <span class="num">10</span>;
+
+<span class="kw">if</span> (<span class="var">age</span> <span class="op">>=</span> <span class="num">18</span>) {
+    <span class="cm">// This runs if age is 18 or more</span>
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"You can drive a car!"</span>);
+} <span class="kw">else</span> {
+    <span class="cm">// This runs if age is less than 18</span>
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"You're too young to drive, but you can ride a bike!"</span>);
+}
+</pre>
+        <button class="run-btn cond-btn" onclick="runExample('if2')">Run it!</button>
+        <div class="output-area" id="if2"></div>
+    </div>
+
+    <h3>if ... else if ... else</h3>
+    <p>Sometimes there are <strong>more than two choices</strong>. Use <code>else if</code> to check more conditions!</p>
+    <div class="example-box">
+        <div class="label label-cond">Example &mdash; Multiple conditions</div>
+<pre>
+<span class="kw">let</span> <span class="var">score</span> <span class="op">=</span> <span class="num">85</span>;
+
+<span class="kw">if</span> (<span class="var">score</span> <span class="op">>=</span> <span class="num">90</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Amazing! You got an A!"</span>);
+} <span class="kw">else if</span> (<span class="var">score</span> <span class="op">>=</span> <span class="num">70</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Great job! You got a B!"</span>);
+} <span class="kw">else if</span> (<span class="var">score</span> <span class="op">>=</span> <span class="num">50</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Not bad! You got a C. Keep practicing!"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Oops! Let's study more and try again!"</span>);
+}
+</pre>
+        <button class="run-btn cond-btn" onclick="runExample('if3')">Run it!</button>
+        <div class="output-area" id="if3"></div>
+    </div>
+
+    <h3>Boolean Values &mdash; Truthy &amp; Falsy</h3>
+    <p>JavaScript treats some values as <strong>"truthy"</strong> (like true) and some as <strong>"falsy"</strong> (like false).</p>
+    <div class="example-box">
+        <div class="label label-cond">Example &mdash; Truthy and falsy values</div>
+<pre>
+<span class="cm">// These are ALL "falsy" (treated like false):</span>
+<span class="cm">//   0, "" (empty text), null, undefined, NaN</span>
+
+<span class="kw">let</span> <span class="var">cookies</span> <span class="op">=</span> <span class="num">0</span>;
+
+<span class="kw">if</span> (<span class="var">cookies</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"You have cookies!"</span>);
+} <span class="kw">else</span> {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"No cookies left! 0 is falsy."</span>);
+}
+</pre>
+        <button class="run-btn cond-btn" onclick="runExample('if4')">Run it!</button>
+        <div class="output-area" id="if4"></div>
+    </div>
+</div>
+
+<!-- SWITCH -->
+
+<div class="topic-section cond-section" id="switch">
+    <h2 class="cond-title">The switch Statement</h2>
+    <p>A <code>switch</code> is like a menu of choices. It checks one value and picks the matching option.</p>
+
+    <div class="analogy">It's like a vending machine. You press button A, B, or C, and you get a different snack depending on which button you pressed!</div>
+
+    <div class="example-box">
+        <div class="label label-cond">Example &mdash; What day is it?</div>
+<pre>
+<span class="kw">let</span> <span class="var">day</span> <span class="op">=</span> <span class="str">"Monday"</span>;
+
+<span class="kw">switch</span> (<span class="var">day</span>) {
+    <span class="kw">case</span> <span class="str">"Monday"</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Start of the week! Let's go!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">"Friday"</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Almost weekend! Woohoo!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">case</span> <span class="str">"Saturday"</span>:
+    <span class="kw">case</span> <span class="str">"Sunday"</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Weekend! Time to play!"</span>);
+        <span class="kw">break</span>;
+    <span class="kw">default</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Just a regular school day."</span>);
+}
+</pre>
+        <button class="run-btn cond-btn" onclick="runExample('switch1')">Run it!</button>
+        <div class="output-area" id="switch1"></div>
+    </div>
+
+    <h3>What Happens Without break?</h3>
+    <p>Without <code>break</code>, the code "falls through" and keeps running the next cases too!</p>
+    <div class="example-box">
+        <div class="label label-cond">Example &mdash; Forgetting break (oops!)</div>
+<pre>
+<span class="kw">let</span> <span class="var">fruit</span> <span class="op">=</span> <span class="str">"Banana"</span>;
+
+<span class="kw">switch</span> (<span class="var">fruit</span>) {
+    <span class="kw">case</span> <span class="str">"Apple"</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Apple picked!\n"</span>);
+    <span class="kw">case</span> <span class="str">"Banana"</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Banana picked!\n"</span>);
+        <span class="cm">// No break here! Falls through...</span>
+    <span class="kw">case</span> <span class="str">"Cherry"</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Cherry picked too!\n"</span>);
+        <span class="cm">// Also no break! Keeps going...</span>
+    <span class="kw">default</span>:
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Default also runs!"</span>);
+}
+</pre>
+        <button class="run-btn cond-btn" onclick="runExample('switch2')">Run it!</button>
+        <div class="output-area" id="switch2"></div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ============================================================ -->
+<!-- PART 3: LOOPS                                                 -->
+<!-- ============================================================ -->
+
+<h2 class="big-heading loop-color" id="loops">Part 3: Loops</h2>
+<p class="subtitle">Doing things over and over again</p>
+
+<div class="topic-section loop-section" id="while-loop">
+    <h2 class="loop-title">The while Loop</h2>
+    <p>A <code>while</code> loop keeps running <strong>as long as a condition is true</strong>. It checks the condition <em>before</em> each run.</p>
+
+    <div class="analogy">Imagine eating candy from a jar. "While there is candy in the jar, take one and eat it." When the jar is empty, you stop!</div>
+
+    <h3>How it works step by step:</h3>
+    <ol class="step-list">
+        <li>Check the condition. Is it true?</li>
+        <li>If YES, run the code inside the loop.</li>
+        <li>Go back to step 1 and check again.</li>
+        <li>If NO, stop the loop and move on.</li>
+    </ol>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Counting from 1 to 5</div>
+<pre>
+<span class="kw">let</span> <span class="var">count</span> <span class="op">=</span> <span class="num">1</span>;
+
+<span class="kw">while</span> (<span class="var">count</span> <span class="op">&lt;=</span> <span class="num">5</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Count is: "</span> <span class="op">+</span> <span class="var">count</span> <span class="op">+</span> <span class="str">"\n"</span>);
+    <span class="var">count</span><span class="op">++</span>;   <span class="cm">// Add 1 to count (very important!)</span>
+}
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('while1')">Run it!</button>
+        <div class="output-area" id="while1"></div>
+    </div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Summing numbers</div>
+<pre>
+<span class="kw">let</span> <span class="var">n</span> <span class="op">=</span> <span class="num">0</span>;
+<span class="kw">let</span> <span class="var">total</span> <span class="op">=</span> <span class="num">0</span>;
+
+<span class="kw">while</span> (<span class="var">n</span> <span class="op">&lt;</span> <span class="num">3</span>) {
+    <span class="var">n</span><span class="op">++</span>;
+    <span class="var">total</span> <span class="op">+=</span> <span class="var">n</span>;   <span class="cm">// Same as: total = total + n</span>
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"n = "</span> <span class="op">+</span> <span class="var">n</span> <span class="op">+</span> <span class="str">", total = "</span> <span class="op">+</span> <span class="var">total</span> <span class="op">+</span> <span class="str">"\n"</span>);
+}
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('while2')">Run it!</button>
+        <div class="output-area" id="while2"></div>
+    </div>
+</div>
+
+<!-- DO WHILE -->
+
+<div class="topic-section loop-section" id="dowhile-loop">
+    <h2 class="loop-title">The do...while Loop</h2>
+    <p>This loop is special: it <strong>always runs at least once</strong>, then checks if it should keep going.</p>
+
+    <div class="analogy">It's like tasting a new food. You ALWAYS take at least one bite first, THEN decide if you want more!</div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; do...while runs at least once</div>
+<pre>
+<span class="kw">let</span> <span class="var">num</span> <span class="op">=</span> <span class="num">10</span>;
+
+<span class="kw">do</span> {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"num is: "</span> <span class="op">+</span> <span class="var">num</span> <span class="op">+</span> <span class="str">"\n"</span>);
+    <span class="var">num</span><span class="op">++</span>;
+} <span class="kw">while</span> (<span class="var">num</span> <span class="op">&lt;</span> <span class="num">5</span>);
+
+<span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Loop ended! num was already 10, which is NOT &lt; 5.\n"</span>);
+<span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"But it still ran ONCE because it checks AFTER running."</span>);
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('dowhile1')">Run it!</button>
+        <div class="output-area" id="dowhile1"></div>
+    </div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Countdown with do...while</div>
+<pre>
+<span class="kw">let</span> <span class="var">rocket</span> <span class="op">=</span> <span class="num">5</span>;
+
+<span class="kw">do</span> {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="var">rocket</span> <span class="op">+</span> <span class="str">"...\n"</span>);
+    <span class="var">rocket</span><span class="op">--</span>;   <span class="cm">// Subtract 1</span>
+} <span class="kw">while</span> (<span class="var">rocket</span> <span class="op">></span> <span class="num">0</span>);
+
+<span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"BLAST OFF!"</span>);
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('dowhile2')">Run it!</button>
+        <div class="output-area" id="dowhile2"></div>
+    </div>
+</div>
+
+<!-- FOR LOOP -->
+
+<div class="topic-section loop-section" id="for-loop">
+    <h2 class="loop-title">The for Loop</h2>
+    <p>The <code>for</code> loop is the <strong>most popular loop</strong>. It puts everything in one neat line: where to start, when to stop, and how to count.</p>
+
+    <div class="analogy">It's like a running track. You know where the start line is, where the finish line is, and how big each step is. "Start at lap 1, stop at lap 5, add 1 lap each time."</div>
+
+    <h3>The 3 Parts of a for Loop:</h3>
+    <div class="example-box">
+        <div class="label label-loop">The anatomy of a for loop</div>
+<pre>
+<span class="cm">//  for (START;     CONDITION;   STEP)</span>
+    <span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>;   <span class="var">i</span> <span class="op">&lt;</span> <span class="num">5</span>;       <span class="var">i</span><span class="op">++</span>) {
+        <span class="cm">// START:     let i = 0   (begin at 0)</span>
+        <span class="cm">// CONDITION: i &lt; 5       (keep going while i is less than 5)</span>
+        <span class="cm">// STEP:      i++         (add 1 after each loop)</span>
+    }
+</pre>
+    </div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Counting 0 to 4</div>
+<pre>
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="num">5</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"i = "</span> <span class="op">+</span> <span class="var">i</span> <span class="op">+</span> <span class="str">"\n"</span>);
+}
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('for1')">Run it!</button>
+        <div class="output-area" id="for1"></div>
+    </div>
+
+    <h3>Looping Through an Array</h3>
+    <p>This is one of the most common things you'll do with a <code>for</code> loop!</p>
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Printing every item in an array</div>
+<pre>
+<span class="kw">let</span> <span class="var">pets</span> <span class="op">=</span> <span class="bracket">[</span><span class="str">"Hamster"</span>, <span class="str">"Goldfish"</span>, <span class="str">"Parrot"</span>, <span class="str">"Kitten"</span><span class="bracket">]</span>;
+
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">pets</span>.<span class="var">length</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Pet #"</span> <span class="op">+</span> (<span class="var">i</span> <span class="op">+</span> <span class="num">1</span>) <span class="op">+</span> <span class="str">": "</span> <span class="op">+</span> <span class="var">pets</span>[<span class="var">i</span>] <span class="op">+</span> <span class="str">"\n"</span>);
+}
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('for2')">Run it!</button>
+        <div class="output-area" id="for2"></div>
+    </div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Adding up prices</div>
+<pre>
+<span class="kw">let</span> <span class="var">prices</span> <span class="op">=</span> <span class="bracket">[</span><span class="num">5</span>, <span class="num">10</span>, <span class="num">3</span>, <span class="num">7</span><span class="bracket">]</span>;
+<span class="kw">let</span> <span class="var">total</span> <span class="op">=</span> <span class="num">0</span>;
+
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">prices</span>.<span class="var">length</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="var">total</span> <span class="op">+=</span> <span class="var">prices</span>[<span class="var">i</span>];
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Added $"</span> <span class="op">+</span> <span class="var">prices</span>[<span class="var">i</span>] <span class="op">+</span> <span class="str">" -> Total: $"</span> <span class="op">+</span> <span class="var">total</span> <span class="op">+</span> <span class="str">"\n"</span>);
+}
+
+<span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Grand total: $"</span> <span class="op">+</span> <span class="var">total</span>);
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('for3')">Run it!</button>
+        <div class="output-area" id="for3"></div>
+    </div>
+</div>
+
+<!-- BREAK & CONTINUE -->
+
+<div class="topic-section loop-section" id="break-continue">
+    <h2 class="loop-title">break &amp; continue</h2>
+    <p>These are special commands that give you extra control over loops.</p>
+
+    <h3>break &mdash; Stop the loop completely</h3>
+    <div class="analogy">You're searching your backpack for your phone. Once you find it, you STOP searching. That's <code>break</code>!</div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Finding a number</div>
+<pre>
+<span class="kw">let</span> <span class="var">numbers</span> <span class="op">=</span> <span class="bracket">[</span><span class="num">4</span>, <span class="num">8</span>, <span class="num">15</span>, <span class="num">16</span>, <span class="num">23</span>, <span class="num">42</span><span class="bracket">]</span>;
+
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">0</span>; <span class="var">i</span> <span class="op">&lt;</span> <span class="var">numbers</span>.<span class="var">length</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Checking: "</span> <span class="op">+</span> <span class="var">numbers</span>[<span class="var">i</span>] <span class="op">+</span> <span class="str">"\n"</span>);
+    <span class="kw">if</span> (<span class="var">numbers</span>[<span class="var">i</span>] <span class="op">===</span> <span class="num">16</span>) {
+        <span class="fn">document</span>.<span class="fn">write</span>(<span class="str">"Found 16! Stopping the search."</span>);
+        <span class="kw">break</span>;   <span class="cm">// EXIT the loop right now!</span>
+    }
+}
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('break1')">Run it!</button>
+        <div class="output-area" id="break1"></div>
+    </div>
+
+    <h3>continue &mdash; Skip this one, go to the next</h3>
+    <div class="analogy">You're picking apples from a tree. If you see a rotten one, you skip it and move on to the next apple. That's <code>continue</code>!</div>
+
+    <div class="example-box">
+        <div class="label label-loop">Example &mdash; Print only odd numbers</div>
+<pre>
+<span class="kw">for</span> (<span class="kw">let</span> <span class="var">i</span> <span class="op">=</span> <span class="num">1</span>; <span class="var">i</span> <span class="op">&lt;=</span> <span class="num">10</span>; <span class="var">i</span><span class="op">++</span>) {
+    <span class="kw">if</span> (<span class="var">i</span> <span class="op">%</span> <span class="num">2</span> <span class="op">===</span> <span class="num">0</span>) {
+        <span class="kw">continue</span>;   <span class="cm">// Skip even numbers</span>
+    }
+    <span class="fn">document</span>.<span class="fn">write</span>(<span class="var">i</span> <span class="op">+</span> <span class="str">" is odd!\n"</span>);
+}
+</pre>
+        <button class="run-btn loop-btn" onclick="runExample('continue1')">Run it!</button>
+        <div class="output-area" id="continue1"></div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SUMMARY -->
+
+<h2 class="big-heading" style="background: linear-gradient(90deg, #f5a623, #50e3c2, #e94560); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Quick Reference</h2>
+<p class="subtitle">Everything at a glance</p>
+
+<div class="summary-card" style="margin-bottom: 50px;">
+    <div class="card" style="border-color: #f5a623;">
+        <h4>Arrays</h4>
+        <p>Lists of items stored in one variable. Access by index starting from 0. Use push/pop for fast adding/removing at the end.</p>
+    </div>
+    <div class="card" style="border-color: #50e3c2;">
+        <h4>if / else</h4>
+        <p>Make decisions: "If this is true, do A, otherwise do B." Chain with <code>else if</code> for more choices.</p>
+    </div>
+    <div class="card" style="border-color: #50e3c2;">
+        <h4>switch</h4>
+        <p>Like a menu of choices. Matches a value to a case. Don't forget <code>break</code> or it falls through!</p>
+    </div>
+    <div class="card" style="border-color: #e94560;">
+        <h4>while</h4>
+        <p>Repeats while a condition is true. Checks <strong>before</strong> each loop. Could run zero times.</p>
+    </div>
+    <div class="card" style="border-color: #e94560;">
+        <h4>do...while</h4>
+        <p>Like while, but checks <strong>after</strong> running. Always runs <strong>at least once</strong>.</p>
+    </div>
+    <div class="card" style="border-color: #e94560;">
+        <h4>for</h4>
+        <p>The most common loop. Has 3 parts: start, condition, step. Great for looping through arrays.</p>
+    </div>
+</div>
+
+</div>
+
+<footer>
+    JavaScript Beginners Guide &mdash; Arrays, Conditionals &amp; Loops
+</footer>
+
+<script>
+function runExample(id) {
+    const output = document.getElementById(id);
+    output.textContent = '';
+    let result = '';
+
+    const fakeDoc = { write: function(text) { result += text; } };
+
+    switch(id) {
+        case 'arr1': {
+            let fruits = ["Apple", "Banana", "Cherry"];
+            let colors = new Array("Red", "Blue", "Green");
+            result = "fruits = [" + fruits.join(", ") + "]\ncolors = [" + colors.join(", ") + "]";
+            break;
+        }
+        case 'arr2': {
+            let animals = ["Cat", "Dog", "Fish", "Bird"];
+            result  = "animals[0] = " + animals[0] + "  (first item)\n";
+            result += "animals[1] = " + animals[1] + "  (second item)\n";
+            result += "animals[2] = " + animals[2] + "  (third item)\n";
+            result += "animals[3] = " + animals[3] + "  (fourth item)";
+            break;
+        }
+        case 'arr3': {
+            let toys = ["Lego", "Puzzle", "Ball"];
+            result = "Before: [" + toys.join(", ") + "]\n";
+            toys[1] = "Robot";
+            toys[3] = "Doll";
+            result += "After:  [" + toys.join(", ") + "]";
+            break;
+        }
+        case 'arr4': {
+            let snacks = ["Chips", "Cookies", "Candy", "Popcorn"];
+            result = "snacks = [" + snacks.join(", ") + "]\nsnacks.length = " + snacks.length + " items!";
+            break;
+        }
+        case 'push1': {
+            let queue = ["Alice", "Bob"];
+            result = "Before push: [" + queue.join(", ") + "]\n";
+            queue.push("Charlie");
+            result += "After push:  [" + queue.join(", ") + "]";
+            break;
+        }
+        case 'pop1': {
+            let stack = ["Plate 1", "Plate 2", "Plate 3"];
+            result = "Before pop: [" + stack.join(", ") + "]\n";
+            let removed = stack.pop();
+            result += "Removed: " + removed + "\nAfter pop:  [" + stack.join(", ") + "]";
+            break;
+        }
+        case 'unshift1': {
+            let line = ["Bob", "Charlie"];
+            result = "Before unshift: [" + line.join(", ") + "]\n";
+            line.unshift("Alice");
+            result += "After unshift:  [" + line.join(", ") + "]";
+            break;
+        }
+        case 'shift1': {
+            let racers = ["Flash", "Speedy", "Turbo"];
+            result = "Before shift: [" + racers.join(", ") + "]\n";
+            let first = racers.shift();
+            result += "Removed: " + first + "\nAfter shift:  [" + racers.join(", ") + "]";
+            break;
+        }
+        case 'if1': {
+            let temperature = 35;
+            if (temperature > 30) {
+                fakeDoc.write("It's a hot day! Stay cool!");
+            }
+            break;
+        }
+        case 'if2': {
+            let age = 10;
+            if (age >= 18) {
+                fakeDoc.write("You can drive a car!");
+            } else {
+                fakeDoc.write("You're too young to drive, but you can ride a bike!");
+            }
+            break;
+        }
+        case 'if3': {
+            let score = 85;
+            if (score >= 90) {
+                fakeDoc.write("Amazing! You got an A!");
+            } else if (score >= 70) {
+                fakeDoc.write("Great job! You got a B!");
+            } else if (score >= 50) {
+                fakeDoc.write("Not bad! You got a C. Keep practicing!");
+            } else {
+                fakeDoc.write("Oops! Let's study more and try again!");
+            }
+            break;
+        }
+        case 'if4': {
+            let cookies = 0;
+            if (cookies) {
+                fakeDoc.write("You have cookies!");
+            } else {
+                fakeDoc.write("No cookies left! 0 is falsy.");
+            }
+            break;
+        }
+        case 'switch1': {
+            let day = "Monday";
+            switch (day) {
+                case "Monday":
+                    fakeDoc.write("Start of the week! Let's go!");
+                    break;
+                case "Friday":
+                    fakeDoc.write("Almost weekend! Woohoo!");
+                    break;
+                case "Saturday":
+                case "Sunday":
+                    fakeDoc.write("Weekend! Time to play!");
+                    break;
+                default:
+                    fakeDoc.write("Just a regular school day.");
+            }
+            break;
+        }
+        case 'switch2': {
+            let fruit = "Banana";
+            switch (fruit) {
+                case "Apple":
+                    fakeDoc.write("Apple picked!\n");
+                case "Banana":
+                    fakeDoc.write("Banana picked!\n");
+                case "Cherry":
+                    fakeDoc.write("Cherry picked too!\n");
+                default:
+                    fakeDoc.write("Default also runs!");
+            }
+            break;
+        }
+        case 'while1': {
+            let count = 1;
+            while (count <= 5) {
+                fakeDoc.write("Count is: " + count + "\n");
+                count++;
+            }
+            break;
+        }
+        case 'while2': {
+            let n = 0;
+            let total = 0;
+            while (n < 3) {
+                n++;
+                total += n;
+                fakeDoc.write("n = " + n + ", total = " + total + "\n");
+            }
+            break;
+        }
+        case 'dowhile1': {
+            let num = 10;
+            do {
+                fakeDoc.write("num is: " + num + "\n");
+                num++;
+            } while (num < 5);
+            fakeDoc.write("Loop ended! num was already 10, which is NOT < 5.\n");
+            fakeDoc.write("But it still ran ONCE because it checks AFTER running.");
+            break;
+        }
+        case 'dowhile2': {
+            let rocket = 5;
+            do {
+                fakeDoc.write(rocket + "...\n");
+                rocket--;
+            } while (rocket > 0);
+            fakeDoc.write("BLAST OFF!");
+            break;
+        }
+        case 'for1': {
+            for (let i = 0; i < 5; i++) {
+                fakeDoc.write("i = " + i + "\n");
+            }
+            break;
+        }
+        case 'for2': {
+            let pets = ["Hamster", "Goldfish", "Parrot", "Kitten"];
+            for (let i = 0; i < pets.length; i++) {
+                fakeDoc.write("Pet #" + (i + 1) + ": " + pets[i] + "\n");
+            }
+            break;
+        }
+        case 'for3': {
+            let prices = [5, 10, 3, 7];
+            let total = 0;
+            for (let i = 0; i < prices.length; i++) {
+                total += prices[i];
+                fakeDoc.write("Added $" + prices[i] + " -> Total: $" + total + "\n");
+            }
+            fakeDoc.write("Grand total: $" + total);
+            break;
+        }
+        case 'break1': {
+            let numbers = [4, 8, 15, 16, 23, 42];
+            for (let i = 0; i < numbers.length; i++) {
+                fakeDoc.write("Checking: " + numbers[i] + "\n");
+                if (numbers[i] === 16) {
+                    fakeDoc.write("Found 16! Stopping the search.");
+                    break;
+                }
+            }
+            break;
+        }
+        case 'continue1': {
+            for (let i = 1; i <= 10; i++) {
+                if (i % 2 === 0) continue;
+                fakeDoc.write(i + " is odd!\n");
+            }
+            break;
+        }
+    }
+
+    output.textContent = result;
+}
+</script>
+
+</body>
+</html>
