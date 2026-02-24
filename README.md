@@ -9,7 +9,7 @@ Week-by-week lab guides and materials for Client-Side Development course.
 ## 🎓 Course Information
 
 **Module:** Client-Side Development  
-**Institution:** Solent University
+**Institution:** Ulster University
 
 ---
 

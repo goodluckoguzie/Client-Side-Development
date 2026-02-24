@@ -1,5 +1,7 @@
 # Week 5: JavaScript Arrays, Conditionals & Loops
 
+**Institution:** Ulster University
+
 ## 📋 Topics Covered
 
 ### 1. Arrays
