@@ -167,6 +167,19 @@
             white-space: pre-wrap;
         }
 
+        .code-input {
+            width: 90%;
+            max-width: 520px;
+            margin: 8px 0 0 16px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: 1px solid #333366;
+            background: #080812;
+            color: #e0e0e0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+        }
+
         .run-btn {
             display: inline-block;
             padding: 10px 24px;
@@ -347,7 +360,17 @@
 <span class="var">animals</span>[<span class="num">2</span>]   <span class="cm">// "Fish"  (third item)</span>
 <span class="var">animals</span>[<span class="num">3</span>]   <span class="cm">// "Bird"  (fourth item)</span>
 </pre>
+        <div style="margin-left: 16px; margin-top: 4px; font-size: 0.85rem; color: #a0a0c0;">
+            Edit the animals list (comma-separated), then run:
+        </div>
+        <input
+            class="code-input"
+            id="arr2-input"
+            type="text"
+            value="Cat, Dog, Fish, Bird"
+        />
         <button class="run-btn arr-btn" onclick="runExample('arr2')">Run it!</button>
+        <button class="run-btn arr-btn" onclick="runEditableArray('arr2')">Run my animals</button>
         <div class="output-area" id="arr2"></div>
     </div>
 
@@ -844,6 +867,37 @@
 </footer>
 
 <script>
+function runEditableArray(id) {
+    // Currently only used for arr2 (animals example)
+    const input = document.getElementById('arr2-input');
+    const output = document.getElementById('arr2');
+    if (!input || !output) return;
+
+    const raw = input.value || '';
+    const animals = raw
+        .split(',')
+        .map(v => v.trim())
+        .filter(v => v.length > 0);
+
+    if (animals.length === 0) {
+        output.textContent = 'Please type at least one animal name.';
+        return;
+    }
+
+    let result = '';
+    for (let i = 0; i < animals.length; i++) {
+        const indexInfo = 'animals[' + i + '] = ' + animals[i];
+        const position =
+            i === 0 ? ' (first item)' :
+            i === 1 ? ' (second item)' :
+            i === 2 ? ' (third item)' :
+            ' (item ' + (i + 1) + ')';
+        result += indexInfo + position + '\n';
+    }
+
+    output.textContent = result.trimEnd();
+}
+
 function runExample(id) {
     const output = document.getElementById(id);
     output.textContent = '';
