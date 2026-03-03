@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 6 – Defaults &amp; Return</title>
+</head>
+<body>
+  <button onclick="showTotal()">Calculate total</button>
+
+  <script>
+    function sum(a, b = 0) {
+      return a + b;
+    }
+
+    function showTotal() {
+      const x = +prompt('Enter first number:', '5');
+      const yText = prompt('Enter second number (optional):', '');
+      const y = yText === '' ? undefined : +yText;
+
+      const total = y === undefined ? sum(x) : sum(x, y);
+      alert('Total = ' + total);
+    }
+  </script>
+</body>
+</html>
+

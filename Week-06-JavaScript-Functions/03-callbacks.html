@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Week 6 – Callbacks</title>
+</head>
+<body>
+  <button onclick="runAsk()">Ask me</button>
+
+  <script>
+    function ask(question, yes, no) {
+      if (confirm(question)) {
+        yes();
+      } else {
+        no();
+      }
+    }
+
+    function runAsk() {
+      ask(
+        'Do you like JavaScript functions?',
+        function () {
+          alert('Great!');
+        },
+        function () {
+          alert('Give them a chance.');
+        }
+      );
+    }
+  </script>
+</body>
+</html>
+
